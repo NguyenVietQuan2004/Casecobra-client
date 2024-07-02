@@ -12,10 +12,9 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Calendar, CalendarSelected } from "@demark-pro/react-booking-calendar";
-
 import "@demark-pro/react-booking-calendar/dist/react-booking-calendar.css";
 import ModalConfirm from "./ModalConfirm";
-import { cn, formatReservedDate, hashRole } from "~/lib/utils";
+import { cn, formatReservedDate, getItemBookingNotFull, hashRole } from "~/lib/utils";
 import { bookingApi } from "~/apiRequest/BookingApi";
 import { toast } from "./ui/use-toast";
 
@@ -26,9 +25,11 @@ function Modal() {
   const [user, setUser] = useState(null);
   const [modalConfirm, setModalConfirm] = useState(false);
   const [acceptDate, setAcceptDate] = useState(false);
-  const [listReserved, setListReserved] = useState([]);
+  const [newListFromServer, setNewListFromServer] = useState([]);
+  const [listHours, setListHours] = useState<Array<string>>([]);
 
   useEffect(() => {
+    // lấy thông tin đăng nhập của user
     if (typeof window !== "undefined") {
       const data = localStorage.getItem("user");
       if (data) {
@@ -38,32 +39,42 @@ function Modal() {
         }
       }
     }
+    // lấy tất cả list trong lần đầu mounted
     const fetchAPI = async () => {
-      const newList = await bookingApi.getListReserved();
-      setListReserved(newList);
+      const allList = await bookingApi.getListReserved();
+      setNewListFromServer(allList);
     };
     fetchAPI();
   }, []);
-  console.log(listReserved);
-  console.log("acceptDate", acceptDate);
-
   useEffect(() => {
     if (acceptDate) {
       const fetchAPI = async () => {
-        const userNewList = await bookingApi.addBooking(selectedDates);
-        userNewList.role = await hashRole(userNewList.role);
-        localStorage.setItem("user", JSON.stringify(userNewList));
-        setSelectedDates(undefined);
-        toast({
-          title: "Đặt chỗ thành công",
-        });
-        const newList = await bookingApi.getListReserved();
-        setListReserved(newList);
+        if (!selectedDates) return;
+        try {
+          // api đặt lịch
+          const userNewList = await bookingApi.addBooking({ date: selectedDates[0], hours: listHours });
+          userNewList.role = await hashRole(userNewList.role);
+          localStorage.setItem("user", JSON.stringify(userNewList));
+          setSelectedDates(undefined);
+          toast({
+            title: "Đặt chỗ thành công",
+          });
+          // api get all list
+          const allList = await bookingApi.getListReserved();
+          setNewListFromServer(allList);
+        } catch (error) {
+          toast({
+            title: "Booking thất bại",
+            description: "Chỗ không khả dụng",
+            variant: "destructive",
+          });
+        }
         // router.refresh
       };
       fetchAPI();
     }
   }, [acceptDate]);
+  // nếu chưa có user thì bắt nó đăng nhập
   if (!user) {
     return (
       <div>
@@ -96,7 +107,7 @@ function Modal() {
                   Sign in
                 </Link>
                 <Link
-                  href="/login"
+                  href="/register"
                   className={buttonVariants({
                     size: "sm",
                     className: "hidden sm:flex items-center gap-1",
@@ -111,15 +122,11 @@ function Modal() {
       </div>
     );
   }
-
   const handleDateChange = (e: any) => {
-    console.log("day la e", e);
-
     setAcceptDate(false);
     setSelectedDates(e);
     setModalConfirm(true);
   };
-
   return (
     <div className="z-[119]">
       <Dialog>
@@ -143,9 +150,8 @@ function Modal() {
             <DialogDescription className="flex justify-end !mt-6" asChild>
               <div className="flex items-center">
                 <div className="mr-4">
-                  {" "}
                   <Calendar
-                    reserved={formatReservedDate(listReserved)}
+                    reserved={formatReservedDate(newListFromServer)}
                     className={`!w-[500px] !max-w-4xl `}
                     selected={selectedDates}
                     onChange={handleDateChange}
@@ -179,7 +185,15 @@ function Modal() {
           </DialogHeader>
         </DialogContent>
       </Dialog>
-      <ModalConfirm open={modalConfirm} setAcceptDate={setAcceptDate} setModalConfirm={setModalConfirm} />
+      {/* modal hiện ra để confirm xem đặt lúc nào có đặt không */}
+      <ModalConfirm
+        setListHours={setListHours}
+        open={modalConfirm}
+        setAcceptDate={setAcceptDate}
+        setModalConfirm={setModalConfirm}
+        newList={getItemBookingNotFull(newListFromServer)}
+        selectedDates={selectedDates}
+      />
     </div>
   );
 }

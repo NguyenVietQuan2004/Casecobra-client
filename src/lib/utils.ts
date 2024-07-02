@@ -22,11 +22,27 @@ export const hashRole = async (role: string) => {
     throw new Error("Băm role thất bại");
   }
 };
-export const formatReservedDate = (listReserved: Array<any>) => {
-  return listReserved.map((item) => {
+export const formatReservedDate = (allList: Array<any>) => {
+  const listReservedFullDay = allList.filter((item: any) => {
+    return item.hours.length === 3;
+  });
+  const getDayofList = listReservedFullDay.map((item: any) => {
+    return item.date;
+  });
+  return getDayofList.map((item) => {
     return {
-      startDate: item.reserved,
-      endDate: item.reserved,
+      startDate: item,
+      endDate: item,
     };
+  });
+};
+export const getItemBookingNotFull = (allList: Array<any>) => {
+  const newList = allList.map((item) => {
+    const date = new Date(item.date);
+    const isoString = date.toString();
+    return { ...item, date: isoString };
+  });
+  return newList.filter((item: any) => {
+    return item.hours.length < 3;
   });
 };
