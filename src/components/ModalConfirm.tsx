@@ -69,7 +69,6 @@ function ModalConfirm({
   const currentDate = newList.find((item) => {
     return item.date === selectedDates?.[0]?.toString();
   });
-  console.log(currentDate);
 
   return (
     <div className="z-[120]">
@@ -126,7 +125,10 @@ function ModalConfirm({
                       <div className="flex justify-end">
                         <Button
                           type="button"
-                          onClick={() => setModalConfirm(false)}
+                          onClick={() => {
+                            setModalConfirm(false);
+                            form.reset({ listHours: [] });
+                          }}
                           className={buttonVariants({
                             size: "sm",
                             className: "hidden sm:flex items-center gap-1 mr-4",

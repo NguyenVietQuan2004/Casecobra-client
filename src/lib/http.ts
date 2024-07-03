@@ -18,10 +18,11 @@ const htppRequest = async (method: methodType, fullURL: string, option?: Custome
     credentials,
     method,
   });
-  const data = await dataResponse.json();
   if (!dataResponse.ok) {
-    throw new Error(data);
+    throw dataResponse;
   }
+  const data = await dataResponse.json();
+
   return data;
 };
 export default htppRequest;

@@ -36,13 +36,28 @@ export const formatReservedDate = (allList: Array<any>) => {
     };
   });
 };
+
+export const formatReservedDate2 = (allList: Array<any>) => {
+  const listReservedFullDay = allList.filter((item: any) => {
+    return item.hours.length >= 1;
+  });
+  const getDayofList = listReservedFullDay.map((item: any) => {
+    return item.date;
+  });
+  return getDayofList.map((item) => {
+    return {
+      startDate: item,
+      endDate: item,
+    };
+  });
+};
 export const getItemBookingNotFull = (allList: Array<any>) => {
-  const newList = allList.map((item) => {
+  return allList.map((item) => {
     const date = new Date(item.date);
     const isoString = date.toString();
     return { ...item, date: isoString };
   });
-  return newList.filter((item: any) => {
-    return item.hours.length < 3;
-  });
+  // return newList.filter((item: any) => {
+  //   return item.hours.length < 3;
+  // });
 };

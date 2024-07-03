@@ -7,6 +7,7 @@ import bcrypt from "bcryptjs";
 import { useRouter } from "next/navigation";
 import Modal from "./Modal";
 import { AuthApi } from "~/apiRequest/AuthApi";
+import Modal2 from "./Modal2";
 
 interface User {
   accessToken: string;
@@ -23,22 +24,7 @@ function Navbar() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const data = localStorage.getItem("user");
-      if (data) {
-        const userFromLocal = JSON.parse(data);
-        if (userFromLocal.email && userFromLocal.userName) {
-          setUser(userFromLocal);
-          const checkRole = async (a: string, b: string) => {
-            const resultCompare = await bcrypt.compare(a, b);
-            setIsAdmin(resultCompare);
-          };
-          checkRole("admin", userFromLocal.role);
-        }
-      }
-    }
-  }, []);
+
   const handleSignOut = async () => {
     try {
       await AuthApi.logout();
@@ -51,6 +37,29 @@ function Navbar() {
       console.log(error);
     }
   };
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const fetchAPI = async () => {
+        const hasToken = await AuthApi.checkExistCookie();
+        const data = localStorage.getItem("user");
+        if (!hasToken.hasAccessToken || !data) {
+          handleSignOut();
+          return;
+        }
+        const userFromLocal = JSON.parse(data);
+        if (userFromLocal.email && userFromLocal.userName) {
+          setUser(userFromLocal);
+          const checkRole = async (a: string, b: string) => {
+            const resultCompare = await bcrypt.compare(a, b);
+            setIsAdmin(resultCompare);
+          };
+          checkRole("admin", userFromLocal.role);
+        }
+      };
+      fetchAPI();
+    }
+  }, []);
+
   return (
     <nav className="sticky z-[10] h-14 inset-x-0 top-0 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
       <MaxWidthWrapper>
@@ -79,6 +88,7 @@ function Navbar() {
                   </Link>
                 ) : null}
                 <Modal />
+                <Modal2 />
                 <div>{user.userName}</div>
               </>
             ) : (
@@ -105,6 +115,7 @@ function Navbar() {
 
                 <div className="h-8 w-px bg-zinc-200 hidden sm:block" />
                 <Modal />
+                <Modal2 />
               </>
             )}
           </div>

@@ -41,4 +41,13 @@ export const AuthApi = {
       }
     );
   },
+  checkExistCookie() {
+    return http.post(
+      "http://localhost:3000/api/checkexistcookie",
+      {},
+      {
+        credentials: "include",
+      }
+    );
+  },
 };

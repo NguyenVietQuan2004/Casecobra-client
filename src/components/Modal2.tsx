@@ -13,14 +13,12 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Calendar, CalendarSelected } from "@demark-pro/react-booking-calendar";
 import "@demark-pro/react-booking-calendar/dist/react-booking-calendar.css";
-import ModalConfirm from "./ModalConfirm";
-import { cn, formatReservedDate, getItemBookingNotFull, hashRole } from "~/lib/utils";
+import { cn, formatReservedDate, formatReservedDate2, getItemBookingNotFull, hashRole } from "~/lib/utils";
 import { bookingApi } from "~/apiRequest/BookingApi";
 import { toast } from "./ui/use-toast";
+import ModalConfirm2 from "./ModalConfirm2";
 
-const a = ["Sat Jul 16 2024 00:00:00 GMT+0700 (Giờ Đông Dương)", "Sat Jul 9  2024 00:00:00 GMT+0700 (Giờ Đông Dương)"];
-function Modal() {
-  const handleButtonCheckIn = () => {};
+function Modal2() {
   const [selectedDates, setSelectedDates] = useState<CalendarSelected[] | undefined>([]);
   const [user, setUser] = useState(null);
   const [modalConfirm, setModalConfirm] = useState(false);
@@ -62,13 +60,13 @@ function Modal() {
           // api đặt lịch
           const userNewList = await bookingApi.addBooking({ date: selectedDates[0], hours: listHours });
           userNewList.role = await hashRole(userNewList.role);
+
           localStorage.setItem("user", JSON.stringify(userNewList));
           setSelectedDates(undefined);
           toast({
             title: "Đặt chỗ thành công",
           });
           // api get all list
-          console.log(userNewList);
           const allList = await bookingApi.getListReserved();
           setNewListFromServer(allList);
         } catch (error: any) {
@@ -77,6 +75,7 @@ function Modal() {
             const allList = await bookingApi.getListReserved();
             setNewListFromServer(allList);
           }
+
           toast({
             title: "Booking thất bại",
             description: "Chỗ không khả dụng",
@@ -96,13 +95,12 @@ function Modal() {
           <DialogTrigger asChild>
             <div>
               <Button
-                onClick={handleButtonCheckIn}
                 className={buttonVariants({
                   size: "sm",
                   className: "hidden sm:flex items-center gap-1",
                 })}
               >
-                Check in trong ngày
+                Check in nhiều ngày
                 <ArrowRight className="ml-1.5 h-5 w-5" />
               </Button>
             </div>
@@ -147,25 +145,24 @@ function Modal() {
         <DialogTrigger asChild>
           <div>
             <Button
-              onClick={handleButtonCheckIn}
               className={buttonVariants({
                 size: "sm",
                 className: "hidden sm:flex items-center gap-1",
               })}
             >
-              Check in trong ngày
+              Check in nhiều ngày
               <ArrowRight className="ml-1.5 h-5 w-5" />
             </Button>
           </div>
         </DialogTrigger>
         <DialogContent className="p-8 max-w-[50rem]">
           <DialogHeader>
-            <DialogTitle className=" font-semibold">Choose one to book date</DialogTitle>
+            <DialogTitle className=" font-semibold">Vui lòng chọn ngày bắt đầu, nhập số ngày kết thúc </DialogTitle>
             <DialogDescription className="flex justify-end !mt-6" asChild>
               <div className="flex items-center">
                 <div className="mr-4">
                   <Calendar
-                    reserved={formatReservedDate(newListFromServer)}
+                    reserved={formatReservedDate2(newListFromServer)}
                     className={`!w-[500px] !max-w-4xl `}
                     selected={selectedDates}
                     onChange={handleDateChange}
@@ -200,16 +197,14 @@ function Modal() {
         </DialogContent>
       </Dialog>
       {/* modal hiện ra để confirm xem đặt lúc nào có đặt không */}
-      <ModalConfirm
+      <ModalConfirm2
         setListHours={setListHours}
         open={modalConfirm}
         setAcceptDate={setAcceptDate}
         setModalConfirm={setModalConfirm}
-        newList={getItemBookingNotFull(newListFromServer)}
-        selectedDates={selectedDates}
       />
     </div>
   );
 }
 
-export default Modal;
+export default Modal2;
