@@ -65,10 +65,10 @@ function Navbar() {
       <MaxWidthWrapper>
         <div className="flex h-14 items-center justify-between  border-b border-zinc-200">
           <div className="flex items-center">
-            <Image alt="snake" src="/snake-1.png" width="30" height="30" className="mr-2"></Image>
-            <Link href="/" className="flex z-40 font-semibold">
+            <Image alt="snake" src="/concu.png" width="30" height="30" className="mr-2"></Image>
+            {/* <Link href="/" className="flex z-40 font-semibold">
               case<span className="text-green-600">cobra</span>
-            </Link>
+            </Link> */}
           </div>
           <div className="h-full flex items-center space-x-4">
             {user ? (
@@ -88,7 +88,7 @@ function Navbar() {
                   </Link>
                 ) : null}
                 <Modal />
-                <Modal2 />
+                {/* <Modal2 /> */}
                 <div>{user.userName}</div>
               </>
             ) : (
@@ -115,7 +115,7 @@ function Navbar() {
 
                 <div className="h-8 w-px bg-zinc-200 hidden sm:block" />
                 <Modal />
-                <Modal2 />
+                {/* <Modal2 /> */}
               </>
             )}
           </div>

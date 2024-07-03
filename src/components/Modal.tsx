@@ -35,7 +35,7 @@ function Modal() {
       const data = localStorage.getItem("user");
       if (data) {
         const userParse = JSON.parse(data);
-        if (userParse.email || userParse.userName) {
+        if (userParse.email && userParse.userName) {
           setUser(JSON.parse(data));
         }
       }
