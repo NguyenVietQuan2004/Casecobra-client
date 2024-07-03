@@ -11,15 +11,11 @@ import { Button, buttonVariants } from "./ui/button";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Checkbox } from "~/components/ui/checkbox";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form";
-import { CalendarSelected } from "@demark-pro/react-booking-calendar";
 import { Input } from "./ui/input";
 
 const FormSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
+  numberDate: z.coerce.number().positive(),
 });
 function ModalConfirm2({
   open,
@@ -35,17 +31,17 @@ function ModalConfirm2({
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      username: "",
+      numberDate: 1,
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {}
-
-  const handleAccept = () => {
+  function onSubmit(data: z.infer<typeof FormSchema>) {
     setAcceptDate(true);
     setModalConfirm(false);
     setListHours(["1", "2", "3"]);
-  };
+    console.log(data);
+    form.reset({ numberDate: 1 });
+  }
 
   return (
     <div className="z-[120]">
@@ -55,28 +51,32 @@ function ModalConfirm2({
         </DialogTrigger>
         <DialogContent className="p-8" showIcon={false}>
           <DialogHeader>
-            <DialogTitle className="font-normal">Bạn có muốn tiếp tục </DialogTitle>
+            <DialogTitle className="font-normal"></DialogTitle>
             <DialogDescription className=" !mt-6" asChild>
               <div className="">
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
                     <FormField
                       control={form.control}
-                      name="username"
+                      name="numberDate"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Số ngày kể từ ngày bắt đầu</FormLabel>
+                          <FormLabel className="font-medium ml-[2px]">Số ngày kể từ ngày bắt đầu</FormLabel>
                           <FormControl>
-                            <Input placeholder="shadcn" {...field} />
+                            <Input placeholder="" {...field} />
                           </FormControl>
-                          <FormDescription></FormDescription>
+                          <FormDescription className="ml-[2px]">Nếu không nhập mặc định là 1</FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
                     <div className="flex justify-end">
                       <Button
-                        onClick={() => setModalConfirm(false)}
+                        type="button"
+                        onClick={() => {
+                          setModalConfirm(false);
+                          form.reset({ numberDate: 1 });
+                        }}
                         className={buttonVariants({
                           size: "sm",
                           className: "hidden sm:flex items-center gap-1 mr-4",
@@ -85,7 +85,7 @@ function ModalConfirm2({
                         Hủy
                       </Button>
                       <Button
-                        onClick={handleAccept}
+                        type="submit"
                         className={buttonVariants({
                           size: "sm",
                           className: "hidden sm:flex items-center gap-1",
