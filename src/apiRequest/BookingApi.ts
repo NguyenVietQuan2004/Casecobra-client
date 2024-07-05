@@ -10,8 +10,8 @@ export const bookingApi = {
       credentials: "include",
     });
   },
-  getListUserBooking(confirm: string) {
-    return http.get(`http://localhost:5000/auth/getalluser?confirm=${confirm}`, {
+  getListUserBooking(confirm: string, currentPage: number) {
+    return http.get(`http://localhost:5000/auth/getalluser?confirm=${confirm}&currentPage=${currentPage}`, {
       cache: "no-cache",
     });
   },

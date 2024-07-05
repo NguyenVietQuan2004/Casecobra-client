@@ -9,13 +9,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
-function ModalAdminConfirm({ email, fetchListUser }: { email: string; fetchListUser: () => {} }) {
+function ModalAdminConfirm({ email, fetchListUser }: { email: string; fetchListUser: (page: any) => {} }) {
   const [isShowModal, setIsShowModal] = useState(false);
   const handleOnlickConfirm = async () => {
     try {
       await bookingApi.updateBookingToYes(email);
       setIsShowModal(false);
-      fetchListUser();
+      fetchListUser(1);
     } catch (error) {
       console.log(error);
     }

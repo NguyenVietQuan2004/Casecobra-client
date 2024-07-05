@@ -89,12 +89,12 @@ function ModalConfirm({
   });
 
   return (
-    <div className="z-[120]">
+    <div className="z-[123]">
       <Dialog open={open}>
         <DialogTrigger asChild>
           <div></div>
         </DialogTrigger>
-        <DialogContent className="p-8" showIcon={false}>
+        <DialogContent className="p-8 z-[124]" showIcon={false}>
           <DialogHeader>
             <DialogTitle className="font-normal">Vui lòng chọn khung giờ</DialogTitle>
             <DialogDescription className=" !mt-6" asChild>

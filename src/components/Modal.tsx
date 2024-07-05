@@ -14,12 +14,11 @@ import { useEffect, useState } from "react";
 import { Calendar, CalendarSelected } from "@demark-pro/react-booking-calendar";
 import "@demark-pro/react-booking-calendar/dist/react-booking-calendar.css";
 import ModalConfirm from "./ModalConfirm";
-import { cn, formatReservedDate, getItemBookingNotFull, hashRole } from "~/lib/utils";
+import { formatReservedDate, getItemBookingNotFull, hashRole } from "~/lib/utils";
 import { bookingApi } from "~/apiRequest/BookingApi";
 import { toast } from "./ui/use-toast";
 
-const a = ["Sat Jul 16 2024 00:00:00 GMT+0700 (Giờ Đông Dương)", "Sat Jul 9  2024 00:00:00 GMT+0700 (Giờ Đông Dương)"];
-function Modal({ className }: { className: string }) {
+function Modal({ className, admin = false }: { className?: string; admin?: boolean }) {
   const handleButtonCheckIn = () => {};
   const [selectedDates, setSelectedDates] = useState<CalendarSelected[] | undefined>([]);
   const [user, setUser] = useState(null);
@@ -94,16 +93,16 @@ function Modal({ className }: { className: string }) {
       <div className={className}>
         <Dialog>
           <DialogTrigger asChild>
-            <div className="absolute z-[120] top-[66%] left-1/2 translate-x-[-50%] ">
+            <div className="absolute z-[120] top-[70%] left-1/2 translate-x-[-50%] ">
               <Button
                 onClick={handleButtonCheckIn}
                 className={buttonVariants({
                   size: "lg",
                   variant: "outline",
-                  className: "flex items-center gap-1   bg-green-700",
+                  className: "flex items-center gap-1   bg-white text-black hover:bg-gray-300",
                 })}
               >
-                Booking now
+                {admin ? "Khóa ngày" : "Booking now"}
                 <ArrowRight className="ml-1.5 h-5 w-5" />
               </Button>
             </div>
@@ -143,19 +142,18 @@ function Modal({ className }: { className: string }) {
     setModalConfirm(true);
   };
   return (
-    <div className="z-[121]">
+    <div className="z-[119]">
       <Dialog onOpenChange={(e) => setIsDialogOpen(e)}>
         <DialogTrigger asChild>
-          <div className="absolute z-[119] top-[66%] left-1/2 translate-x-[-50%] ">
+          <div className={`absolute z-[2] ${admin ? "right-10" : "top-[70%] left-1/2 translate-x-[-50%]"} `}>
             <Button
-              onClick={handleButtonCheckIn}
               className={buttonVariants({
                 size: "lg",
                 variant: "outline",
-                className: "flex items-center gap-1   bg-green-700",
+                className: "flex items-center gap-1   bg-white text-black hover:bg-gray-300",
               })}
             >
-              Booking now
+              {admin ? "Khóa ngày" : "Booking now"}
               <ArrowRight className="ml-1.5 h-5 w-5" />
             </Button>
           </div>
@@ -167,11 +165,13 @@ function Modal({ className }: { className: string }) {
               <div className="flex items-center">
                 <div className="mr-4">
                   <Calendar
+                    range={true}
                     // sm:!max-w-4xl
                     reserved={formatReservedDate(newListFromServer)}
                     className={`!max-w-[100vw] !w-[100vw] sm:!w-[500px]   `}
                     selected={selectedDates}
                     onChange={handleDateChange}
+
                     // không thể chọn ngày hôm nay
                   />
                 </div>

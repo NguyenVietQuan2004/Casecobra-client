@@ -9,9 +9,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
-function ModalDeleteConfirm({ handleDeleteListBook, email }: { handleDeleteListBook: any; email: string }) {
+function ModalDeleteConfirm({
+  handleDeleteListBook,
+  email,
+  confirm = "no",
+}: {
+  handleDeleteListBook: any;
+  email: string;
+  confirm?: string;
+}) {
   const [isShowModal, setIsShowModal] = useState(false);
-  console.log(email);
   return (
     <div className="">
       <Dialog open={isShowModal}>
@@ -25,13 +32,15 @@ function ModalDeleteConfirm({ handleDeleteListBook, email }: { handleDeleteListB
               })}
               onClick={() => setIsShowModal(true)}
             >
-              Hủy
+              {confirm === "yes" ? "Check out" : "Hủy"}
             </Button>
           </div>
         </DialogTrigger>
         <DialogContent className="p-8 z-[120]" showIcon={false}>
           <DialogHeader>
-            <DialogTitle className="font-normal">Bạn có chắc chắn hủy đơn hàng</DialogTitle>
+            <DialogTitle className="font-normal">
+              Bạn có chắc chắn {confirm === "yes" ? "check out" : "hủy"} hủy đơn hàng
+            </DialogTitle>
             <DialogDescription className=" !mt-6" asChild>
               <div className="flex justify-end">
                 <Button

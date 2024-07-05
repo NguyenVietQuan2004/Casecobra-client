@@ -28,7 +28,6 @@ export default function Home() {
         <div className="relative">
           <Modal className="" />
           <Carousel
-            className="bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
             opts={{
               align: "start",
               loop: true,

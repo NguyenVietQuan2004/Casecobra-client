@@ -2,7 +2,6 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AuthApi } from "~/apiRequest/AuthApi";
-import { Button, buttonVariants } from "~/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table";
 import bcrypt from "bcryptjs";
 import { Spinner } from "~/components/ui/spinner";
@@ -11,9 +10,22 @@ import ModalDetail from "~/components/ModalDetail";
 import Link from "next/link";
 import ModalAdminConfirm from "./modalAdminConfirm";
 import ModalDeleteConfirm from "./modalDeleteConfirm";
+import Modal from "~/components/Modal";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "~/components/ui/pagination";
 
 const DashBoard = () => {
   const [isAdmin, setIsAdmin] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageNum, setPageNum] = useState(0);
+
   const router = useRouter();
   const pathName = usePathname();
 
@@ -28,9 +40,13 @@ const DashBoard = () => {
       console.log(error);
     }
   };
-  const fetchListUser = async () => {
-    const data = await bookingApi.getListUserBooking("no");
-    setListUserNotConfirm(data);
+  useEffect(() => {
+    fetchListUser(currentPage);
+  }, [currentPage]);
+  const fetchListUser = async (page: any) => {
+    const data = await bookingApi.getListUserBooking("no", page);
+    setPageNum(data.totalPages);
+    setListUserNotConfirm(data.users);
   };
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -54,8 +70,6 @@ const DashBoard = () => {
       };
       fetchAPI();
     }
-
-    fetchListUser();
   }, []);
 
   if (!isAdmin) {
@@ -71,7 +85,7 @@ const DashBoard = () => {
     try {
       setIsAdmin(false);
       await bookingApi.deleteListBookingOfUser(email);
-      fetchListUser();
+      fetchListUser(1);
       setIsAdmin(true);
     } catch (error) {
       setIsAdmin(true);
@@ -103,44 +117,84 @@ const DashBoard = () => {
             <Link href="/dashboard/admin" className="font-medium  tracking-tight">
               Quán lí khóa ngày admin
             </Link>
+            <Modal admin={true} />
           </div>
           {listUserNotConfirm.length === 0 ? (
             <div className="flex justify-center mx-10 text-3xl">Danh sách rỗng</div>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Customer</TableHead>
-                  <TableHead className="hidden sm:table-cell">Status</TableHead>
-                  <TableHead className="hidden sm:table-cell">
-                    Tổng số tiền <div>( click để xem chi tiết hóa đơn)</div>{" "}
-                  </TableHead>
-                  <TableHead className="hidden sm:table-cell">Số điện thoại </TableHead>
-                </TableRow>
-              </TableHeader>
-
-              <TableBody>
-                {listUserNotConfirm.map((order: any) => (
-                  <TableRow key={order._id} className="bg-accent cursor-pointer">
-                    <TableCell className="">
-                      <div className="font-medium">{order.userName}</div>
-                      <div className="hidden text-sm text-muted-foreground md:inline">{order.email}</div>
-                    </TableCell>
-                    <TableCell className="hidden sm:table-cell">
-                      <div className="flex  items-center">
-                        <ModalDeleteConfirm handleDeleteListBook={handleDeleteListBook} email={order.email} />
-
-                        <ModalAdminConfirm fetchListUser={fetchListUser} email={order.email} />
-                      </div>
-                    </TableCell>
-                    <TableCell className="hidden sm:table-cell">
-                      <ModalDetail listDateBooked={order.listDateBooked} userName={order.userName} />
-                    </TableCell>
-                    <TableCell className="hidden sm:table-cell">{order.numberPhone}</TableCell>
+            <>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Customer</TableHead>
+                    <TableHead className="hidden sm:table-cell">Status</TableHead>
+                    <TableHead className="hidden sm:table-cell">
+                      Tổng số tiền <div>( click để xem chi tiết hóa đơn)</div>{" "}
+                    </TableHead>
+                    <TableHead className="hidden sm:table-cell">Số điện thoại </TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {listUserNotConfirm.map((order: any) => (
+                    <TableRow key={order._id} className="bg-accent cursor-pointer">
+                      <TableCell className="">
+                        <div className="font-medium">{order.userName}</div>
+                        <div className="hidden text-sm text-muted-foreground md:inline">{order.email}</div>
+                      </TableCell>
+                      <TableCell className="hidden sm:table-cell">
+                        <div className="flex  items-center">
+                          <ModalDeleteConfirm handleDeleteListBook={handleDeleteListBook} email={order.email} />
+
+                          <ModalAdminConfirm fetchListUser={fetchListUser} email={order.email} />
+                        </div>
+                      </TableCell>
+                      <TableCell className="hidden sm:table-cell">
+                        <ModalDetail listDateBooked={order.listDateBooked} userName={order.userName} />
+                      </TableCell>
+                      <TableCell className="hidden sm:table-cell">{order.numberPhone}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+              <Pagination onChange={(e) => console.log(e)}>
+                <PaginationContent onChange={(e) => console.log(e)}>
+                  <PaginationItem
+                    onClick={() => {
+                      if (currentPage !== 1) {
+                        setCurrentPage(currentPage - 1);
+                      }
+                    }}
+                  >
+                    <PaginationPrevious href="#" />
+                  </PaginationItem>
+
+                  {[...Array(pageNum)].map((_, index) => {
+                    return (
+                      <PaginationItem
+                        key={index}
+                        onClick={() => setCurrentPage(index + 1)}
+                        className={`${index + 1 === currentPage && "bg-zinc-300"}`}
+                      >
+                        <PaginationLink href="#">{index + 1}</PaginationLink>
+                      </PaginationItem>
+                    );
+                  })}
+                  {/* <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem> */}
+                  <PaginationItem
+                    onClick={() => {
+                      console.log(currentPage, pageNum);
+                      if (currentPage !== pageNum) {
+                        setCurrentPage(currentPage + 1);
+                      }
+                    }}
+                  >
+                    <PaginationNext href="#" />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </>
           )}
         </div>
       </div>

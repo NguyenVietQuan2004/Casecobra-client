@@ -10,6 +10,7 @@ import Link from "next/link";
 import ModalDeleteConfirm from "../modalDeleteConfirm";
 import { formatDate } from "~/lib/utils";
 import Navbar from "~/components/NavBar";
+import Modal from "~/components/Modal";
 
 const DashBoard = () => {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -104,6 +105,7 @@ const DashBoard = () => {
             >
               Quán lí khóa ngày admin
             </Link>
+            <Modal admin={true} />
           </div>
           {listUserNotConfirm.length === 0 ? (
             <div className="flex justify-center mx-10 text-3xl">Danh sách rỗng</div>
