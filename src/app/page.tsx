@@ -1,16 +1,23 @@
 "use client";
-
-import { Icons } from "~/components/Icon";
-import { ArrowRight, Check, Star } from "lucide-react";
-import Link from "next/link";
-import MaxWidthWrapper from "~/components/MaxWidthWrapper";
-import { Button, buttonVariants } from "~/components/ui/button";
+import { Button } from "~/components/ui/button";
 import Navbar from "~/components/NavBar";
-import { Reviews } from "~/components/Reviews";
 import Footer from "~/components/Footer";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "~/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { Card, CardContent } from "~/components/ui/card";
+
+const list2 = [
+  "House",
+  "Cabin",
+  "Villa",
+  "Cottage",
+  "Condo/Apartment",
+  "House",
+  "Cabin",
+  "Villa",
+  "Cottage",
+  "Condo/Apartment",
+];
 
 export default function Home() {
   return (
@@ -30,11 +37,11 @@ export default function Home() {
               align: "start",
               loop: true,
             }}
-            // plugins={[
-            //   Autoplay({
-            //     delay: 2000,
-            //   }),
-            // ]}
+            plugins={[
+              Autoplay({
+                delay: 2000,
+              }),
+            ]}
           >
             <CarouselContent className="h-[calc(100vh-56px)]">
               <CarouselItem className="h-full pl-0">
@@ -47,17 +54,19 @@ export default function Home() {
                 <img className="object-cover h-full w-full" alt="dasds" src="/concu.png" />
               </CarouselItem>
             </CarouselContent>
-            <CarouselPrevious className="left-[40px]" />
-            <CarouselNext className="right-[40px]" />
+            {/* <CarouselPrevious className="left-[40px]" />
+            <CarouselNext className="right-[40px]" /> */}
           </Carousel>
         </div>
       </section>
 
       {/* value proposition section */}
       <section className="bg-slate-100 grainy-dark py-24 pb-6">
-        <div className="px-[160px] ">
+        <div className=" px-0 md:px-[60px] lg:px-[120px] xl:px-[140px]  ">
+          <h2 className="ml-3 font-semibold text-xl sm:text-3xl mb-4">Discover your new favorite stay</h2>
+
           <Carousel
-            className="w-full"
+            className="w-full -ml-3"
             opts={{
               align: "start",
               loop: true,
@@ -68,9 +77,12 @@ export default function Home() {
             //   }),
             // ]}
           >
-            <CarouselContent className="-ml-1">
-              {Array.from({ length: 10 }).map((_, index) => (
-                <CarouselItem key={index} className="pl-6 relative  lg:basis-1/5">
+            <CarouselContent className="-ml-1 ">
+              {list2.map((value, index) => (
+                <CarouselItem
+                  key={index}
+                  className="pl-6 basis-[100%]  relative  sm:basis-1/2  md:basis-1/3 lg:basis-1/4 xl:basis-1/5  "
+                >
                   <div className="">
                     <Card className="rounded-2xl overflow-hidden">
                       <CardContent
@@ -81,7 +93,7 @@ export default function Home() {
                       </CardContent>
                     </Card>
                   </div>
-                  <div className=" text-white font-bold absolute z-[50] bottom-2 left-10">ahiihi</div>
+                  <div className=" text-white font-bold absolute z-[50] bottom-2 left-10">{value}</div>
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -95,9 +107,11 @@ export default function Home() {
           </div> */}
       </section>
       <section className="bg-slate-100 pt-10 grainy-dark ">
-        <div className="px-10 ">
+        <div className=" px-0 sm:px-10 ">
+          <h2 className="ml-3 font-semibold text-xl sm:text-3xl mb-4">Explore these unique stays</h2>
+
           <Carousel
-            className="w-full"
+            className="w-full -ml-3"
             opts={{
               align: "start",
               loop: true,

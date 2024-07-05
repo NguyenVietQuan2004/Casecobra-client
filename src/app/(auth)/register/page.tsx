@@ -9,6 +9,7 @@ type Inputs = {
   email: string;
   password: string;
   userName: string;
+  numberPhone: string;
 };
 function Register() {
   const router = useRouter();
@@ -34,9 +35,9 @@ function Register() {
   };
 
   return (
-    <div className="p-4 flex justify-center items-center bg-[#F2F2F2] h-[100vh]">
-      <div className="w-[390px] pt-[50px] px-[45px] pb-[23px] bg-white  rounded-xl">
-        <h2 className="text-center pb-[26px] font-bold text-[32px]">Welcome</h2>
+    <div className=" p-0 sm:p-4 flex justify-center items-center bg-[#F2F2F2] h-[100vh]">
+      <div className="w-[390px] pt-[50px] px-5 sm:px-[45px] pb-[23px] bg-white  rounded-xl">
+        <h2 className="text-center pb-[26px] font-bold text-[28px] sm:text-[32px]">Welcome</h2>
         <div className="h-14 w-14 rounded-sm overflow-hidden mx-auto ">
           <img
             className="object-cover h-full w-full "
@@ -45,16 +46,28 @@ function Register() {
           />
         </div>
         <form className="mb-[80px]" onSubmit={handleSubmit(onSubmit)}>
-          <div className="h-12 my-10">
-            <input
-              defaultValue=""
-              {...register("userName", { required: true })}
-              className="pl-2 h-full w-full outline-none  border-b border-gray-500"
-              placeholder="Họ và tên"
-            />
-            {errors.email && <span className="text-red-500">Vui lòng nhập tên</span>}
+          <div className="flex items-end mt-10">
+            <div className="h-12 ">
+              <input
+                defaultValue=""
+                {...register("userName", { required: true })}
+                className="pl-2 h-full w-full outline-none  border-b border-gray-500"
+                placeholder="Họ và tên"
+              />
+              {errors.email && <span className="text-red-500">Vui lòng nhập tên</span>}
+            </div>
+            <div className="h-10 w-2 bg-white" />
+            <div className="h-12 ">
+              <input
+                defaultValue=""
+                {...register("numberPhone", { required: true })}
+                className="pl-2 h-full w-full outline-none  border-b border-gray-500"
+                placeholder="Phone number"
+              />
+              {errors.email && <span className="text-red-500">Vui lòng nhập email</span>}
+            </div>
           </div>
-          <div className="h-12 my-10">
+          <div className="h-12 my-6 sm:my-10">
             <input
               defaultValue=""
               {...register("email", { required: true })}
@@ -63,6 +76,8 @@ function Register() {
             />
             {errors.email && <span className="text-red-500">Vui lòng nhập email</span>}
           </div>
+          {/* <div>Chúng tôi sẽ xác nhận đơn hàng thông qua số điện thoại vui lòng cung cấp chính xác</div> */}
+
           <div className="h-12 mb-10">
             <input
               defaultValue=""

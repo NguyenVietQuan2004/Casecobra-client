@@ -28,9 +28,9 @@ function Login() {
   };
 
   return (
-    <div className="p-4 flex justify-center items-center bg-[#F2F2F2] h-[100vh]">
-      <div className="w-[390px] pt-[77px] px-[55px] pb-[33px] bg-white  rounded-xl">
-        <h2 className="text-center pb-[26px] font-bold text-[32px]">Welcome</h2>
+    <div className="p-0 sm:p-4 flex justify-center items-center bg-[#F2F2F2] h-[100vh]">
+      <div className="w-[390px] pt-[46px] sm:pt-[77px] px-5 sm:px-[45px] pb-[33px] bg-white  rounded-xl h-full">
+        <h2 className="text-center pb-[26px] font-bold text-[28px] sm:text-[32px]">Welcome</h2>
         <div className="h-14 w-14 rounded-sm overflow-hidden mx-auto ">
           <img
             className="object-cover h-full w-full "
@@ -38,8 +38,8 @@ function Login() {
             src="https://cdn.thoitiet247.edu.vn/wp-content/uploads/2024/04/nhung-hinh-anh-girl-xinh-de-thuong.webp"
           />
         </div>
-        <form className="mb-[115px]" onSubmit={handleSubmit(onSubmit)}>
-          <div className="h-12 my-10">
+        <form className="mb-[80px] sm:mb-[115px] " onSubmit={handleSubmit(onSubmit)}>
+          <div className="h-12 mt-10">
             <input
               defaultValue=""
               {...register("email", { required: true })}
@@ -47,7 +47,7 @@ function Login() {
               placeholder="Email"
             />
           </div>
-          <div className="h-12 mb-10">
+          <div className="h-12 my-6 sm:my-10">
             <input
               defaultValue=""
               {...register("password", { required: true })}

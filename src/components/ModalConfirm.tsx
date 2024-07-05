@@ -14,19 +14,23 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Checkbox } from "~/components/ui/checkbox";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form";
 import { CalendarSelected } from "@demark-pro/react-booking-calendar";
+import { useState } from "react";
 
 const listHours = [
   {
     id: "1",
-    label: "7h-10h",
+    label: "7h-10h ",
+    price: "1.000.000đ",
   },
   {
     id: "2",
     label: "13h-17h",
+    price: "2.000.000đ",
   },
   {
     id: "3",
     label: "18h-22h",
+    price: "3.000.000đ",
   },
 ] as const;
 
@@ -60,11 +64,25 @@ function ModalConfirm({
       listHours: [],
     },
   });
+  const [selectAll, setSelectAll] = useState(false);
   const onSubmit = (data: z.infer<typeof FormSchema>) => {
     setAcceptDate(true);
     setModalConfirm(false);
+    setSelectAll(false);
     setListHours(data.listHours);
     form.reset({ listHours: [] });
+  };
+
+  const handleSelectAll = () => {
+    if (selectAll) {
+      form.setValue("listHours", []);
+    } else {
+      const allSelectableHours = listHours
+        .filter((item) => !currentDate?.hours?.includes(item.id))
+        .map((item) => item.id);
+      form.setValue("listHours", allSelectableHours);
+    }
+    setSelectAll(!selectAll);
   };
   const currentDate = newList.find((item) => {
     return item.date === selectedDates?.[0]?.toString();
@@ -93,6 +111,16 @@ function ModalConfirm({
                               <FormLabel className="text-base"></FormLabel>
                               <FormDescription>Select the items you want to booking </FormDescription>
                             </div>
+                            <Button
+                              type="button"
+                              onClick={handleSelectAll}
+                              className={buttonVariants({
+                                size: "sm",
+                                className: "mb-4",
+                              })}
+                            >
+                              {selectAll ? "Deselect All" : "Select All"}
+                            </Button>
                             {listHours.map((item) => (
                               <FormField
                                 key={item.id}
@@ -100,7 +128,7 @@ function ModalConfirm({
                                 name="listHours"
                                 render={({ field }) => {
                                   return (
-                                    <FormItem key={item.id} className="flex flex-row items-start space-x-3 space-y-0">
+                                    <FormItem key={item.id} className="flex flex-row items-center  space-x-3 space-y-0">
                                       <FormControl>
                                         <Checkbox
                                           disabled={currentDate?.hours?.includes(item.id)}
@@ -112,7 +140,10 @@ function ModalConfirm({
                                           }}
                                         />
                                       </FormControl>
-                                      <FormLabel className="text-sm font-normal">{item.label}</FormLabel>
+                                      <FormLabel className="text-sm font-normal p-2 flex justify-between items-center w-[180px]">
+                                        {item.label}{" "}
+                                        <span className=" bg-red-50 px-3 py-2 rounded-sm">{item.price}</span>
+                                      </FormLabel>
                                     </FormItem>
                                   );
                                 }}
@@ -128,10 +159,12 @@ function ModalConfirm({
                           onClick={() => {
                             setModalConfirm(false);
                             form.reset({ listHours: [] });
+                            setSelectAll(false);
                           }}
                           className={buttonVariants({
+                            variant: "outline",
                             size: "sm",
-                            className: "hidden sm:flex items-center gap-1 mr-4",
+                            className: "flex items-center gap-1 mr-4 text-black",
                           })}
                         >
                           Hủy
@@ -140,7 +173,7 @@ function ModalConfirm({
                           type="submit"
                           className={buttonVariants({
                             size: "sm",
-                            className: "hidden sm:flex items-center gap-1",
+                            className: "flex items-center gap-1",
                           })}
                         >
                           Xác nhận

@@ -10,4 +10,56 @@ export const bookingApi = {
       credentials: "include",
     });
   },
+  getListUserBooking(confirm: string) {
+    return http.get(`http://localhost:5000/auth/getalluser?confirm=${confirm}`, {
+      cache: "no-cache",
+    });
+  },
+  getUserBooking(email: string) {
+    return http.post(
+      `http://localhost:5000/auth/getuser`,
+      { email },
+      {
+        cache: "no-cache",
+        credentials: "include",
+      }
+    );
+  },
+  updateBookingToYes(email: string) {
+    return http.put(
+      `http://localhost:5000/auth/update`,
+      {
+        email,
+      },
+      {}
+    );
+  },
+  deleteListBookingOfUser(email: string) {
+    return http.delete(
+      `http://localhost:5000/auth/delete`,
+      {
+        email,
+      },
+      {
+        cache: "no-cache",
+      }
+    );
+  },
+  deleteOneDateBookingOfAdmin(date: string) {
+    return http.delete(
+      `http://localhost:5000/auth/unlock`,
+      {
+        date,
+      },
+      {
+        cache: "no-cache",
+        credentials: "include",
+      }
+    );
+  },
+  // getUserBooking() {
+  //   return http.get("http://localhost:5000/auth/getUser", {
+  //     cache: "no-cache",
+  //   });
+  // },
 };

@@ -1,17 +1,21 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import bcrypt from "bcryptjs";
-
+import { formatInTimeZone } from "date-fns-tz";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
-export const formatPrice = (price: number) => {
-  const formatter = new Intl.NumberFormat("en-US", {
+export const formatPrice = (prices: Array<number>) => {
+  let sum = 0;
+  for (let i = 0; i < prices.length; i++) {
+    sum += prices[i];
+  }
+  const formatter = new Intl.NumberFormat("vi-VN", {
     style: "currency",
-    currency: "USD",
+    currency: "VND",
   });
 
-  return formatter.format(price);
+  return formatter.format(sum);
 };
 export const hashRole = async (role: string) => {
   try {
@@ -60,4 +64,27 @@ export const getItemBookingNotFull = (allList: Array<any>) => {
   // return newList.filter((item: any) => {
   //   return item.hours.length < 3;
   // });
+};
+
+export const formatDate = (isoString: any) => {
+  // Chuyển đổi thời gian UTC sang múi giờ Việt Nam
+  const timeZone = "Asia/Ho_Chi_Minh";
+  const a = formatInTimeZone(isoString, timeZone, "yyyy-MM-dd"); // 2014-10-25 06:46:20 EST
+  return a;
+};
+
+export const calcMoney = (hours: any) => {
+  let money = 0;
+  for (let i = 0; i < hours.length; i++) {
+    if (hours[i] === "1") {
+      money += 1000000;
+    }
+    if (hours[i] === "2") {
+      money += 2000000;
+    }
+    if (hours[i] === "3") {
+      money += 3000000;
+    }
+  }
+  return money;
 };

@@ -107,7 +107,7 @@ function Modal() {
               </Button>
             </div>
           </DialogTrigger>
-          <DialogContent className="p-8">
+          <DialogContent className="p-8 ">
             <DialogHeader>
               <DialogTitle className="font-normal">You need to sign in or sign up to book date</DialogTitle>
               <DialogDescription className="flex justify-end !mt-6">
@@ -115,7 +115,7 @@ function Modal() {
                   href="/login"
                   className={buttonVariants({
                     size: "sm",
-                    className: "hidden sm:flex items-center gap-1 mr-2",
+                    className: "flex items-center gap-1 mr-2",
                   })}
                 >
                   Sign in
@@ -124,7 +124,7 @@ function Modal() {
                   href="/register"
                   className={buttonVariants({
                     size: "sm",
-                    className: "hidden sm:flex items-center gap-1",
+                    className: "flex items-center gap-1",
                   })}
                 >
                   Sign up
@@ -158,41 +158,29 @@ function Modal() {
             </Button>
           </div>
         </DialogTrigger>
-        <DialogContent className="p-8 max-w-[50rem]">
+        <DialogContent className="p-1 pt-8 sm:p-8  !max-w-[100vw] sm:!max-w-[50rem]">
           <DialogHeader>
             <DialogTitle className=" font-semibold">Choose one to book date</DialogTitle>
-            <DialogDescription className="flex justify-end !mt-6" asChild>
+            <DialogDescription className="flex justify-center sm:justify-end !mt-6" asChild>
               <div className="flex items-center">
                 <div className="mr-4">
                   <Calendar
+                    // sm:!max-w-4xl
                     reserved={formatReservedDate(newListFromServer)}
-                    className={`!w-[500px] !max-w-4xl `}
+                    className={`!max-w-[100vw] !w-[100vw] sm:!w-[500px]   `}
                     selected={selectedDates}
                     onChange={handleDateChange}
                     // không thể chọn ngày hôm nay
                   />
                 </div>
-                <div className="">
+                <div className="hidden sm:block">
                   <div className="flex items-center mb-4">
                     <div className="h-[50px] mr-2  w-[50px] flex items-center rounded-xl justify-center bg-[#f2f1ef]">
                       1
                     </div>
                     :<div className="ml-2">Đã được đặt chỗ</div>
                   </div>
-                  <span className="mr-2 "> Để hủy lịch đặt vui lòng vào trang cá nhân</span>
-
-                  <Link
-                    href="/profile"
-                    className={cn(
-                      buttonVariants({
-                        size: "sm",
-                        variant: "outline",
-                      }),
-                      ""
-                    )}
-                  >
-                    Tiếp tục
-                  </Link>
+                  <span className="mr-2 "> Chúng tôi sẽ liên hệ vói bạn qua số điện thoại để xác nhận.</span>
                 </div>
               </div>
             </DialogDescription>
