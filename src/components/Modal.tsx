@@ -19,7 +19,7 @@ import { bookingApi } from "~/apiRequest/BookingApi";
 import { toast } from "./ui/use-toast";
 
 const a = ["Sat Jul 16 2024 00:00:00 GMT+0700 (Giờ Đông Dương)", "Sat Jul 9  2024 00:00:00 GMT+0700 (Giờ Đông Dương)"];
-function Modal() {
+function Modal({ className }: { className: string }) {
   const handleButtonCheckIn = () => {};
   const [selectedDates, setSelectedDates] = useState<CalendarSelected[] | undefined>([]);
   const [user, setUser] = useState(null);
@@ -91,18 +91,19 @@ function Modal() {
   // nếu chưa có user thì bắt nó đăng nhập
   if (!user) {
     return (
-      <div>
+      <div className={className}>
         <Dialog>
           <DialogTrigger asChild>
-            <div>
+            <div className="absolute z-[120] top-[66%] left-1/2 translate-x-[-50%] ">
               <Button
                 onClick={handleButtonCheckIn}
                 className={buttonVariants({
-                  size: "sm",
-                  className: "hidden sm:flex items-center gap-1",
+                  size: "lg",
+                  variant: "outline",
+                  className: "flex items-center gap-1   bg-green-700",
                 })}
               >
-                Check in trong ngày
+                Booking now
                 <ArrowRight className="ml-1.5 h-5 w-5" />
               </Button>
             </div>
@@ -142,23 +143,24 @@ function Modal() {
     setModalConfirm(true);
   };
   return (
-    <div className="z-[119]">
+    <div className="z-[121]">
       <Dialog onOpenChange={(e) => setIsDialogOpen(e)}>
         <DialogTrigger asChild>
-          <div>
+          <div className="absolute z-[119] top-[66%] left-1/2 translate-x-[-50%] ">
             <Button
               onClick={handleButtonCheckIn}
               className={buttonVariants({
-                size: "sm",
-                className: "hidden sm:flex items-center gap-1",
+                size: "lg",
+                variant: "outline",
+                className: "flex items-center gap-1   bg-green-700",
               })}
             >
-              Check in trong ngày
+              Booking now
               <ArrowRight className="ml-1.5 h-5 w-5" />
             </Button>
           </div>
         </DialogTrigger>
-        <DialogContent className="p-1 pt-8 sm:p-8  !max-w-[100vw] sm:!max-w-[50rem]">
+        <DialogContent className="p-1 pt-8 sm:p-8  z-[122] !max-w-[100vw] sm:!max-w-[50rem]">
           <DialogHeader>
             <DialogTitle className=" font-semibold">Choose one to book date</DialogTitle>
             <DialogDescription className="flex justify-center sm:justify-end !mt-6" asChild>

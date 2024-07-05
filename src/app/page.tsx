@@ -5,6 +5,7 @@ import Footer from "~/components/Footer";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "~/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { Card, CardContent } from "~/components/ui/card";
+import Modal from "~/components/Modal";
 
 const list2 = [
   "House",
@@ -24,15 +25,10 @@ export default function Home() {
     <div className="bg-slate-50 grainy-light">
       <section>
         <Navbar />
-        <div className="h-[0]">
-          <Button>hhhu</Button>
-          <Button>hhhu</Button>
-
-          <Button>hhhu</Button>
-        </div>
-        <div className="">
+        <div className="relative">
+          <Modal className="" />
           <Carousel
-            className=""
+            className="bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
             opts={{
               align: "start",
               loop: true,
@@ -54,8 +50,6 @@ export default function Home() {
                 <img className="object-cover h-full w-full" alt="dasds" src="/concu.png" />
               </CarouselItem>
             </CarouselContent>
-            {/* <CarouselPrevious className="left-[40px]" />
-            <CarouselNext className="right-[40px]" /> */}
           </Carousel>
         </div>
       </section>

@@ -80,6 +80,10 @@ const DashBoard = () => {
       <div className="max-w-7xl w-full mx-auto flex flex-col sm:gap-4 sm:py-4">
         <div className="flex flex-col gap-16 p-10 xl:p-0 pt-6">
           <div className="flex items-center">
+            <Link href="/" className=" font-medium tracking-tight">
+              Trang chủ
+            </Link>
+            <div className="h-8 w-[2px] mx-4 bg-zinc-200 " />
             <Link href="/dashboard" className="font-medium  tracking-tight">
               Incoming orders
             </Link>

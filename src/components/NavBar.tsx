@@ -112,7 +112,7 @@ function Navbar() {
                       Dashboard ✨
                     </Link>
                   ) : null}
-                  <Modal />
+                  {/* <Modal /> */}
                   {!isAdmin && (
                     <>
                       {/* drawer */}
@@ -200,7 +200,7 @@ function Navbar() {
                   </Link>
 
                   <div className="h-8 w-px bg-zinc-200 hidden sm:block" />
-                  <Modal />
+                  {/* <Modal /> */}
                   {!isAdmin && (
                     <div className="hidden sm:block">
                       <Link
