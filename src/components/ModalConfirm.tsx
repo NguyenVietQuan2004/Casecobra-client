@@ -15,6 +15,7 @@ import { Checkbox } from "~/components/ui/checkbox";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form";
 import { CalendarSelected } from "@demark-pro/react-booking-calendar";
 import { useState } from "react";
+import Link from "next/link";
 
 const listHours = [
   {
@@ -50,6 +51,7 @@ function ModalConfirm({
   setListHours,
   newList,
   selectedDates,
+  notLogin,
 }: {
   open: boolean;
   setAcceptDate: React.Dispatch<React.SetStateAction<boolean>>;
@@ -57,6 +59,7 @@ function ModalConfirm({
   setListHours: React.Dispatch<React.SetStateAction<Array<string>>>;
   selectedDates: CalendarSelected[] | undefined;
   newList: Array<any>;
+  notLogin?: boolean;
 }) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -87,7 +90,6 @@ function ModalConfirm({
   const currentDate = newList.find((item) => {
     return item.date === selectedDates?.[0]?.toString();
   });
-
   return (
     <div className="z-[123]">
       <Dialog open={open}>
@@ -155,30 +157,46 @@ function ModalConfirm({
                         )}
                       />
                       <div className="flex justify-end">
-                        <Button
-                          type="button"
-                          onClick={() => {
-                            setModalConfirm(false);
-                            form.reset({ listHours: [] });
-                            setSelectAll(false);
-                          }}
-                          className={buttonVariants({
-                            variant: "outline",
-                            size: "sm",
-                            className: "flex items-center gap-1 mr-4 text-black",
-                          })}
-                        >
-                          Hủy
-                        </Button>
-                        <Button
-                          type="submit"
-                          className={buttonVariants({
-                            size: "sm",
-                            className: "flex items-center gap-1",
-                          })}
-                        >
-                          Xác nhận
-                        </Button>
+                        {notLogin ? (
+                          <div>
+                            Bạn cần{" "}
+                            <Link href="/login" className="underline text-blue-400">
+                              đăng nhập
+                            </Link>{" "}
+                            or{" "}
+                            <Link href="/register" className="underline text-blue-400">
+                              đăng ký
+                            </Link>{" "}
+                            để đặt lịch
+                          </div>
+                        ) : (
+                          <>
+                            <Button
+                              type="button"
+                              onClick={() => {
+                                setModalConfirm(false);
+                                form.reset({ listHours: [] });
+                                setSelectAll(false);
+                              }}
+                              className={buttonVariants({
+                                variant: "outline",
+                                size: "sm",
+                                className: "flex items-center gap-1 mr-4 text-black",
+                              })}
+                            >
+                              Hủy
+                            </Button>
+                            <Button
+                              type="submit"
+                              className={buttonVariants({
+                                size: "sm",
+                                className: "flex items-center gap-1",
+                              })}
+                            >
+                              Xác nhận
+                            </Button>
+                          </>
+                        )}
                       </div>
                     </form>
                   </Form>

@@ -169,7 +169,7 @@ function Navbar() {
                           })}
                           href="/help"
                         >
-                          Hướng dẫn
+                          Bảo mật
                         </Link>
                       </div>
                     </>
@@ -221,7 +221,7 @@ function Navbar() {
                         })}
                         href="/help"
                       >
-                        Hướng dẫn
+                        Bảo mật
                       </Link>
                     </div>
                   )}

@@ -88,14 +88,66 @@ function Modal({ className, admin = false }: { className?: string; admin?: boole
     }
   }, [acceptDate]);
   // nếu chưa có user thì bắt nó đăng nhập
+  // if (!user) {
+  //   return (
+  //     <div className={className}>
+  //       <Dialog>
+  //         <DialogTrigger asChild>
+  //           <div className="absolute z-[2] top-[70%] left-1/2 translate-x-[-50%] ">
+  //             <Button
+  //               onClick={handleButtonCheckIn}
+  //               className={buttonVariants({
+  //                 size: "lg",
+  //                 variant: "outline",
+  //                 className: "flex items-center gap-1   bg-white text-black hover:bg-gray-300",
+  //               })}
+  //             >
+  //               {admin ? "Khóa ngày" : "Booking now"}
+  //               <ArrowRight className="ml-1.5 h-5 w-5" />
+  //             </Button>
+  //           </div>
+  //         </DialogTrigger>
+  //         <DialogContent className="p-8 ">
+  //           <DialogHeader>
+  //             <DialogTitle className="font-normal">You need to sign in or sign up to book date</DialogTitle>
+  //             <DialogDescription className="flex justify-end !mt-6">
+  //               <Link
+  //                 href="/login"
+  //                 className={buttonVariants({
+  //                   size: "sm",
+  //                   className: "flex items-center gap-1 mr-2",
+  //                 })}
+  //               >
+  //                 Sign in
+  //               </Link>
+  //               <Link
+  //                 href="/register"
+  //                 className={buttonVariants({
+  //                   size: "sm",
+  //                   className: "flex items-center gap-1",
+  //                 })}
+  //               >
+  //                 Sign up
+  //               </Link>
+  //             </DialogDescription>
+  //           </DialogHeader>
+  //         </DialogContent>
+  //       </Dialog>
+  //     </div>
+  //   );
+  // }
+  const handleDateChange = (e: any) => {
+    setAcceptDate(false);
+    setSelectedDates(e);
+    setModalConfirm(true);
+  };
   if (!user) {
     return (
-      <div className={className}>
-        <Dialog>
+      <div className="z-[119]">
+        <Dialog onOpenChange={(e) => setIsDialogOpen(e)}>
           <DialogTrigger asChild>
-            <div className="absolute z-[120] top-[70%] left-1/2 translate-x-[-50%] ">
+            <div className={`absolute z-[2] ${admin ? "right-10" : "top-[70%] left-1/2 translate-x-[-50%]"} `}>
               <Button
-                onClick={handleButtonCheckIn}
                 className={buttonVariants({
                   size: "lg",
                   variant: "outline",
@@ -107,40 +159,50 @@ function Modal({ className, admin = false }: { className?: string; admin?: boole
               </Button>
             </div>
           </DialogTrigger>
-          <DialogContent className="p-8 ">
+          <DialogContent className="p-1 pt-8 sm:p-8  z-[122] !max-w-[100vw] sm:!max-w-[50rem]">
             <DialogHeader>
-              <DialogTitle className="font-normal">You need to sign in or sign up to book date</DialogTitle>
-              <DialogDescription className="flex justify-end !mt-6">
-                <Link
-                  href="/login"
-                  className={buttonVariants({
-                    size: "sm",
-                    className: "flex items-center gap-1 mr-2",
-                  })}
-                >
-                  Sign in
-                </Link>
-                <Link
-                  href="/register"
-                  className={buttonVariants({
-                    size: "sm",
-                    className: "flex items-center gap-1",
-                  })}
-                >
-                  Sign up
-                </Link>
+              <DialogTitle className=" font-semibold">Choose one to book date</DialogTitle>
+              <DialogDescription className="flex justify-center sm:justify-end !mt-6" asChild>
+                <div className="flex items-center">
+                  <div className="mr-4">
+                    <Calendar
+                      // sm:!max-w-4xl
+                      reserved={formatReservedDate(newListFromServer)}
+                      className={`!max-w-[100vw] !w-[100vw] sm:!w-[500px]   `}
+                      selected={selectedDates}
+                      onChange={handleDateChange}
+
+                      // không thể chọn ngày hôm nay
+                    />
+                  </div>
+                  <div className="hidden sm:block">
+                    <div className="flex items-center mb-4">
+                      <div className="h-[50px] mr-2  w-[50px] flex items-center rounded-xl justify-center bg-[#f2f1ef]">
+                        1
+                      </div>
+                      :<div className="ml-2">Đã được đặt chỗ</div>
+                    </div>
+                    <span className="mr-2 "> Chúng tôi sẽ liên hệ vói bạn qua số điện thoại để xác nhận.</span>
+                  </div>
+                </div>
               </DialogDescription>
             </DialogHeader>
           </DialogContent>
         </Dialog>
+        {/* modal hiện ra để confirm xem đặt lúc nào có đặt không */}
+        <ModalConfirm
+          notLogin={true}
+          setListHours={setListHours}
+          open={modalConfirm}
+          setAcceptDate={setAcceptDate}
+          setModalConfirm={setModalConfirm}
+          newList={getItemBookingNotFull(newListFromServer)}
+          selectedDates={selectedDates}
+        />
       </div>
     );
   }
-  const handleDateChange = (e: any) => {
-    setAcceptDate(false);
-    setSelectedDates(e);
-    setModalConfirm(true);
-  };
+
   return (
     <div className="z-[119]">
       <Dialog onOpenChange={(e) => setIsDialogOpen(e)}>
