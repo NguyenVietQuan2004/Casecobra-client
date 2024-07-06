@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
   const cookie = cookies();
-  const accessToken = cookie.get("accessToken");
+  const accessToken = cookie.get("SessionToken");
 
   if (accessToken) {
     // Response.json({ hasAccessToken: true }, { status: 200 });
