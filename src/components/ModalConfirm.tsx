@@ -51,7 +51,7 @@ function ModalConfirm({
   setListHours,
   newList,
   selectedDates,
-  notLogin,
+  notLogin = false,
 }: {
   open: boolean;
   setAcceptDate: React.Dispatch<React.SetStateAction<boolean>>;
@@ -96,7 +96,7 @@ function ModalConfirm({
         <DialogTrigger asChild>
           <div></div>
         </DialogTrigger>
-        <DialogContent className="p-8 z-[124]" showIcon={false}>
+        <DialogContent className="p-8 z-[124]" showIcon={notLogin} setModalConfirm={setModalConfirm}>
           <DialogHeader>
             <DialogTitle className="font-normal">Vui lòng chọn khung giờ</DialogTitle>
             <DialogDescription className=" !mt-6" asChild>
