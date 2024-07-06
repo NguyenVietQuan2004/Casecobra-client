@@ -8,7 +8,7 @@ export async function POST(request: Request) {
     {
       status: 200,
       headers: {
-        "Set-Cookie": `SessionToken=${accessToken}; Path=/; HttpOnly; Expires=${oneYearFromNow.toUTCString()}`,
+        "Set-Cookie": `SessionToken=${accessToken}; Path=/; HttpOnly; Expires=${oneYearFromNow.toUTCString()} Secure; Partitioned;SameSite=None`,
         "Content-Type": "application/json",
       },
     }
