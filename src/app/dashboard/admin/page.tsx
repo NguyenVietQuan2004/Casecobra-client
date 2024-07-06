@@ -30,7 +30,6 @@ const DashBoard = () => {
   };
   const fetchListUser = async () => {
     const data = await bookingApi.getUserBooking("admin@gmail.com");
-    console.log(data);
     setListUserNotConfirm(data);
   };
   useEffect(() => {
@@ -61,7 +60,7 @@ const DashBoard = () => {
 
   if (!isAdmin) {
     return (
-      <div className="fixed inset-0 bg-zinc-100">
+      <div className="fixed inset-0 bg-zinc-100 ">
         <div className="flex items-center gap-3 justify-center h-[100vh] ">
           <Spinner size="medium" />
         </div>
@@ -107,32 +106,36 @@ const DashBoard = () => {
             </Link>
             <Modal admin={true} />
           </div>
-          {listUserNotConfirm.length === 0 ? (
+          {listUserNotConfirm?.length === 0 ? (
             <div className="flex justify-center mx-10 text-3xl">Danh sách rỗng</div>
           ) : (
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead>Ngày</TableHead>
-                  <TableHead className="hidden sm:table-cell">Status</TableHead>
+                  <TableHead className="table-cell">Status</TableHead>
 
-                  <TableHead className="hidden sm:table-cell">Khung giờ </TableHead>
+                  <TableHead className="table-cell">Khung giờ </TableHead>
                 </TableRow>
               </TableHeader>
 
               <TableBody>
-                {listUserNotConfirm[0].listDateBooked.map((order: any) => {
+                {listUserNotConfirm[0]?.listDateBooked.map((order: any) => {
                   return (
                     <TableRow key={order.date} className="bg-accent cursor-pointer">
-                      <TableCell className="hidden sm:table-cell">{formatDate(order.date)}</TableCell>
-                      <TableCell className="hidden sm:table-cell">
+                      <TableCell className="table-cell py-2">{formatDate(order.date)}</TableCell>
+                      <TableCell className="table-cell py-2">
                         <div className="flex  items-center">
-                          <ModalDeleteConfirm handleDeleteListBook={handleDeleteListBook} email={order.date} />
+                          <ModalDeleteConfirm
+                            admin={true}
+                            handleDeleteListBook={handleDeleteListBook}
+                            email={order.date}
+                          />
                         </div>
                       </TableCell>
 
-                      <TableCell className="hidden sm:table-cell">
-                        {order.hours.map((hour: any) => {
+                      <TableCell className="table-cell py-2 ">
+                        {order?.hours.map((hour: any) => {
                           return (
                             <div key={hour} className="">
                               {hour === "1" ? "7h-10h" : hour === "2" ? "13h-17h" : "18h-22h"}

@@ -165,7 +165,6 @@ function Modal({ className, admin = false }: { className?: string; admin?: boole
               <div className="flex items-center">
                 <div className="mr-4">
                   <Calendar
-                    range={true}
                     // sm:!max-w-4xl
                     reserved={formatReservedDate(newListFromServer)}
                     className={`!max-w-[100vw] !w-[100vw] sm:!w-[500px]   `}

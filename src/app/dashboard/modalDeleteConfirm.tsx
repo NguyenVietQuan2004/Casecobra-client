@@ -13,10 +13,12 @@ function ModalDeleteConfirm({
   handleDeleteListBook,
   email,
   confirm = "no",
+  admin,
 }: {
   handleDeleteListBook: any;
   email: string;
   confirm?: string;
+  admin?: boolean;
 }) {
   const [isShowModal, setIsShowModal] = useState(false);
   return (
@@ -32,7 +34,7 @@ function ModalDeleteConfirm({
               })}
               onClick={() => setIsShowModal(true)}
             >
-              {confirm === "yes" ? "Check out" : "Hủy"}
+              {confirm === "yes" ? "Check out" : admin ? "Hủy khóa" : "Hủy"}
             </Button>
           </div>
         </DialogTrigger>

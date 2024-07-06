@@ -111,16 +111,7 @@ function ModalConfirm({
                               <FormLabel className="text-base"></FormLabel>
                               <FormDescription>Select the items you want to booking </FormDescription>
                             </div>
-                            <Button
-                              type="button"
-                              onClick={handleSelectAll}
-                              className={buttonVariants({
-                                size: "sm",
-                                className: "mb-4",
-                              })}
-                            >
-                              {selectAll ? "Deselect All" : "Select All"}
-                            </Button>
+
                             {listHours.map((item) => (
                               <FormField
                                 key={item.id}
@@ -149,6 +140,16 @@ function ModalConfirm({
                                 }}
                               />
                             ))}
+                            <Button
+                              type="button"
+                              onClick={handleSelectAll}
+                              className={buttonVariants({
+                                size: "sm",
+                                className: "mb-4",
+                              })}
+                            >
+                              {selectAll ? "Deselect All" : "Select All"}
+                            </Button>
                             <FormMessage />
                           </FormItem>
                         )}

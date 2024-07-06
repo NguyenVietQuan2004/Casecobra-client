@@ -48,6 +48,7 @@ const DashBoard = () => {
     setPageNum(data.totalPages);
     setListUserNotConfirm(data.users);
   };
+  console.log(pageNum);
   useEffect(() => {
     if (typeof window !== "undefined") {
       const fetchAPI = async () => {
@@ -127,11 +128,11 @@ const DashBoard = () => {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Customer</TableHead>
-                    <TableHead className="hidden sm:table-cell">Status</TableHead>
-                    <TableHead className="hidden sm:table-cell">
+                    <TableHead className="table-cell">Status</TableHead>
+                    <TableHead className="table-cell">
                       Tổng số tiền <div>( click để xem chi tiết hóa đơn)</div>{" "}
                     </TableHead>
-                    <TableHead className="hidden sm:table-cell">Số điện thoại </TableHead>
+                    <TableHead className="table-cell">Số điện thoại </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -141,59 +142,61 @@ const DashBoard = () => {
                         <div className="font-medium">{order.userName}</div>
                         <div className="hidden text-sm text-muted-foreground md:inline">{order.email}</div>
                       </TableCell>
-                      <TableCell className="hidden sm:table-cell">
+                      <TableCell className="table-cell">
                         <div className="flex  items-center">
                           <ModalDeleteConfirm handleDeleteListBook={handleDeleteListBook} email={order.email} />
 
                           <ModalAdminConfirm fetchListUser={fetchListUser} email={order.email} />
                         </div>
                       </TableCell>
-                      <TableCell className="hidden sm:table-cell">
+                      <TableCell className="table-cell">
                         <ModalDetail listDateBooked={order.listDateBooked} userName={order.userName} />
                       </TableCell>
-                      <TableCell className="hidden sm:table-cell">{order.numberPhone}</TableCell>
+                      <TableCell className="table-cell">{order.numberPhone}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
-              <Pagination onChange={(e) => console.log(e)}>
-                <PaginationContent onChange={(e) => console.log(e)}>
-                  <PaginationItem
-                    onClick={() => {
-                      if (currentPage !== 1) {
-                        setCurrentPage(currentPage - 1);
-                      }
-                    }}
-                  >
-                    <PaginationPrevious href="#" />
-                  </PaginationItem>
+              {pageNum > 1 && (
+                <Pagination>
+                  <PaginationContent className="overflow-x-auto max-w-[80vw]">
+                    <PaginationItem
+                      onClick={() => {
+                        if (currentPage !== 1) {
+                          setCurrentPage(currentPage - 1);
+                        }
+                      }}
+                    >
+                      <PaginationPrevious href="#" />
+                    </PaginationItem>
 
-                  {[...Array(pageNum)].map((_, index) => {
-                    return (
-                      <PaginationItem
-                        key={index}
-                        onClick={() => setCurrentPage(index + 1)}
-                        className={`${index + 1 === currentPage && "bg-zinc-300"}`}
-                      >
-                        <PaginationLink href="#">{index + 1}</PaginationLink>
-                      </PaginationItem>
-                    );
-                  })}
-                  {/* <PaginationItem>
+                    {[...Array(pageNum)].map((_, index) => {
+                      return (
+                        <PaginationItem
+                          key={index}
+                          onClick={() => setCurrentPage(index + 1)}
+                          className={`${index + 1 === currentPage && "bg-zinc-300"}`}
+                        >
+                          <PaginationLink href="#">{index + 1}</PaginationLink>
+                        </PaginationItem>
+                      );
+                    })}
+                    {/* <PaginationItem>
                 <PaginationEllipsis />
               </PaginationItem> */}
-                  <PaginationItem
-                    onClick={() => {
-                      console.log(currentPage, pageNum);
-                      if (currentPage !== pageNum) {
-                        setCurrentPage(currentPage + 1);
-                      }
-                    }}
-                  >
-                    <PaginationNext href="#" />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
+                    <PaginationItem
+                      onClick={() => {
+                        console.log(currentPage, pageNum);
+                        if (currentPage !== pageNum) {
+                          setCurrentPage(currentPage + 1);
+                        }
+                      }}
+                    >
+                      <PaginationNext href="#" />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              )}
             </>
           )}
         </div>

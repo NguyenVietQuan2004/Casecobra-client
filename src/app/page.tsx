@@ -6,6 +6,8 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import Autoplay from "embla-carousel-autoplay";
 import { Card, CardContent } from "~/components/ui/card";
 import Modal from "~/components/Modal";
+import { ContactIcon } from "~/components/icons";
+import MenuContact from "~/components/MenuContact";
 
 const list2 = [
   "House",
@@ -23,6 +25,7 @@ const list2 = [
 export default function Home() {
   return (
     <div className="bg-slate-50 grainy-light">
+      <MenuContact />
       <section>
         <Navbar />
         <div className="relative">

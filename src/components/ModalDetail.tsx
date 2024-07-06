@@ -19,7 +19,7 @@ function ModalDetail({ listDateBooked, userName }: { listDateBooked: Array<any>;
         <DialogTrigger asChild>
           <div>{formatPrice(money)}</div>
         </DialogTrigger>
-        <DialogContent className="p-8 z-[99999]">
+        <DialogContent className="p-8 z-[99999] overflow-y-auto max-h-[80vh]">
           <DialogHeader>
             <DialogTitle className="font-normal">Chi tiết khách hàng {userName}</DialogTitle>
             <DialogDescription className=" !mt-6" asChild>
