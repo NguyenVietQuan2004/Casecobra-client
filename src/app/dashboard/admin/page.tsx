@@ -26,6 +26,8 @@ const DashBoard = () => {
       router.refresh();
     } catch (error) {
       console.log(error);
+      await AuthApi.logoutNextServer();
+      localStorage.clear();
     }
   };
   const fetchListUser = async () => {

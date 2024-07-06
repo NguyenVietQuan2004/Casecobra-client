@@ -51,6 +51,11 @@ function Navbar() {
       router.refresh();
     } catch (error) {
       console.log(error);
+      await AuthApi.logoutNextServer();
+      localStorage.clear();
+      setUser(null);
+      setIsAdmin(false);
+      setIsLoggingOut(false);
     }
   };
   useEffect(() => {
