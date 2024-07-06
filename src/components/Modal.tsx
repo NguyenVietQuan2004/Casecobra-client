@@ -28,8 +28,32 @@ function Modal({ className, admin = false }: { className?: string; admin?: boole
   const [listHours, setListHours] = useState<Array<string>>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  // useEffect(() => {
+  //   // lấy thông tin đăng nhập của user
+  //   if (typeof window !== "undefined") {
+  //     const data = localStorage.getItem("user");
+  //     if (data) {
+  //       const userParse = JSON.parse(data);
+  //       if (userParse.email && userParse.userName) {
+  //         setUser(JSON.parse(data));
+  //       }
+  //     } else {
+  //       setUser(null);
+  //     }
+  //   }
+  //   // lấy tất cả list trong lần đầu mounted
+  //   const fetchAPI = async () => {
+  //     const allList = await bookingApi.getListReserved();
+  //     setNewListFromServer(allList);
+  //   };
+  //   fetchAPI();
+  // }, []);
   useEffect(() => {
-    // lấy thông tin đăng nhập của user
+    const fetchAPI = async () => {
+      const allList = await bookingApi.getListReserved();
+      setNewListFromServer(allList);
+    };
+    fetchAPI();
     if (typeof window !== "undefined") {
       const data = localStorage.getItem("user");
       if (data) {
@@ -37,21 +61,10 @@ function Modal({ className, admin = false }: { className?: string; admin?: boole
         if (userParse.email && userParse.userName) {
           setUser(JSON.parse(data));
         }
+      } else {
+        setUser(null);
       }
     }
-    // lấy tất cả list trong lần đầu mounted
-    const fetchAPI = async () => {
-      const allList = await bookingApi.getListReserved();
-      setNewListFromServer(allList);
-    };
-    fetchAPI();
-  }, []);
-  useEffect(() => {
-    const fetchAPI = async () => {
-      const allList = await bookingApi.getListReserved();
-      setNewListFromServer(allList);
-    };
-    fetchAPI();
   }, [isDialogOpen, modalConfirm]);
   useEffect(() => {
     if (acceptDate) {
