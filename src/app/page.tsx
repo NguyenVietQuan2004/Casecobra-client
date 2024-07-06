@@ -1,13 +1,12 @@
 "use client";
-import { Button } from "~/components/ui/button";
 import Navbar from "~/components/NavBar";
 import Footer from "~/components/Footer";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "~/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { Card, CardContent } from "~/components/ui/card";
 import Modal from "~/components/Modal";
-import { ContactIcon } from "~/components/icons";
 import MenuContact from "~/components/MenuContact";
+import Image from "next/image";
 
 const list2 = [
   "House",
@@ -43,13 +42,31 @@ export default function Home() {
           >
             <CarouselContent className="h-[calc(100vh-56px)]">
               <CarouselItem className="h-full pl-0">
-                <img className="object-cover h-full w-full" alt="dasds" src="/concu.png" />
+                <Image
+                  className="object-cover h-full w-full"
+                  alt="slider "
+                  width={1920}
+                  height={1080}
+                  src="/images/concu.png" // Đường dẫn ảnh trong thư mục public
+                />
               </CarouselItem>
               <CarouselItem className="h-full pl-0">
-                <img className="object-cover h-full w-full" alt="dasds" src="/concu.png" />
+                <Image
+                  className="object-cover h-full w-full"
+                  alt="slider "
+                  width={1920}
+                  height={1080}
+                  src="/images/concu.png" // Đường dẫn ảnh trong thư mục public
+                />
               </CarouselItem>
               <CarouselItem className="h-full pl-0">
-                <img className="object-cover h-full w-full" alt="dasds" src="/concu.png" />
+                <Image
+                  className="object-cover h-full w-full"
+                  alt="slider "
+                  width={1920}
+                  height={1080}
+                  src="/images/concu.png" // Đường dẫn ảnh trong thư mục public
+                />
               </CarouselItem>
             </CarouselContent>
           </Carousel>
@@ -67,11 +84,6 @@ export default function Home() {
               align: "start",
               loop: true,
             }}
-            // plugins={[
-            //   Autoplay({
-            //     delay: 2000,
-            //   }),
-            // ]}
           >
             <CarouselContent className="-ml-1 ">
               {list2.map((value, index) => (
@@ -85,7 +97,14 @@ export default function Home() {
                         style={{ aspectRatio: 3 / 4 }}
                         className="flex aspect-square items-center justify-center p-0"
                       >
-                        <img alt="" src="/concu.png" className=" h-full w-full" />
+                        {/* <img alt="" src="/iamges/concu.png" className=" h-full w-full" /> */}
+                        <Image
+                          alt=""
+                          src="/images/concu.png"
+                          className="rounded-xl h-full w-full"
+                          width={1920}
+                          height={1080}
+                        ></Image>
                       </CardContent>
                     </Card>
                   </div>
@@ -124,7 +143,14 @@ export default function Home() {
                   <div className="">
                     <Card className="">
                       <CardContent className="flex aspect-square items-center justify-center p-0">
-                        <img alt="" src="/concu.png" className="rounded-xl h-full w-full" />
+                        {/* <img alt="" src="/images/concu.png" className="rounded-xl h-full w-full" /> */}
+                        <Image
+                          alt=""
+                          src="/images/concu.png"
+                          className="rounded-xl h-full w-full"
+                          width={1920}
+                          height={1080}
+                        ></Image>
                       </CardContent>
                     </Card>
                   </div>

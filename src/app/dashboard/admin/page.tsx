@@ -29,7 +29,7 @@ const DashBoard = () => {
     }
   };
   const fetchListUser = async () => {
-    const data = await bookingApi.getUserBooking("admin@gmail.com");
+    const data = await bookingApi.getUserBooking(process.env.NEXT_PUBLIC_EMAIL_ADMIN || "");
     setListUserNotConfirm(data);
   };
   useEffect(() => {

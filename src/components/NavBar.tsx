@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import bcrypt from "bcryptjs";
 import { useRouter } from "next/navigation";
-import Modal from "./Modal";
 import { AuthApi } from "~/apiRequest/AuthApi";
 import { ChinhsachIcon, HelpIcon, MenuIcon } from "./icons";
 import {
@@ -90,7 +89,7 @@ function Navbar() {
         <MaxWidthWrapper>
           <div className="flex h-14 items-center justify-between  border-b border-zinc-200">
             <div className="flex items-center">
-              <Image alt="snake" src="/snake-1.png" width="30" height="30" className="mr-2"></Image>
+              <Image alt="snake" src="/images/concu.png" width="30" height="30" className="mr-2"></Image>
               <Link href="/" className="flex z-40 font-semibold">
                 Home<span className="text-green-600">stay</span>
               </Link>

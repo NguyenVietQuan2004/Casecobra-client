@@ -1,7 +1,7 @@
 import { http } from "~/lib/http";
 export const AuthApi = {
   Login(data: any) {
-    return http.post("http://localhost:5000/auth/login", data, {
+    return http.post(`${process.env.NEXT_PUBLIC_API_BACKEND}/auth/login`, data, {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
@@ -9,7 +9,7 @@ export const AuthApi = {
     });
   },
   sendCookieToNextServer(data: any) {
-    return http.post("http://localhost:3000/api/auth", data, {
+    return http.post(`${process.env.NEXT_PUBLIC_API_FRONTEND}/api/auth`, data, {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
@@ -17,7 +17,7 @@ export const AuthApi = {
     });
   },
   registerAccount(data: any) {
-    return http.post("http://localhost:5000/auth/register", data, {
+    return http.post(`${process.env.NEXT_PUBLIC_API_BACKEND}/auth/register`, data, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -25,7 +25,7 @@ export const AuthApi = {
   },
   logout() {
     return http.post(
-      "http://localhost:5000/auth/logout",
+      `${process.env.NEXT_PUBLIC_API_BACKEND}/auth/logout`,
       {},
       {
         credentials: "include",
@@ -34,7 +34,7 @@ export const AuthApi = {
   },
   logoutNextServer() {
     return http.post(
-      "http://localhost:3000/api/auth/logout",
+      `${process.env.NEXT_PUBLIC_API_FRONTEND}/api/auth/logout`,
       {},
       {
         credentials: "include",
@@ -43,7 +43,7 @@ export const AuthApi = {
   },
   checkExistCookie() {
     return http.post(
-      "http://localhost:3000/api/checkexistcookie",
+      `${process.env.NEXT_PUBLIC_API_FRONTEND}/api/checkexistcookie`,
       {},
       {
         credentials: "include",

@@ -1,23 +1,26 @@
 import { http } from "~/lib/http";
 export const bookingApi = {
   getListReserved() {
-    return http.get("http://localhost:5000/list/getall", {
+    return http.get(`${process.env.NEXT_PUBLIC_API_BACKEND}/list/getall`, {
       cache: "no-cache",
     });
   },
   addBooking(data: any) {
-    return http.post("http://localhost:5000/booking/add", data, {
+    return http.post(`${process.env.NEXT_PUBLIC_API_BACKEND}/booking/add`, data, {
       credentials: "include",
     });
   },
   getListUserBooking(confirm: string, currentPage: number) {
-    return http.get(`http://localhost:5000/auth/getalluser?confirm=${confirm}&currentPage=${currentPage}`, {
-      cache: "no-cache",
-    });
+    return http.get(
+      `${process.env.NEXT_PUBLIC_API_BACKEND}/auth/getalluser?confirm=${confirm}&currentPage=${currentPage}`,
+      {
+        cache: "no-cache",
+      }
+    );
   },
   getUserBooking(email: string) {
     return http.post(
-      `http://localhost:5000/auth/getuser`,
+      `${process.env.NEXT_PUBLIC_API_BACKEND}/auth/getuser`,
       { email },
       {
         cache: "no-cache",
@@ -27,7 +30,7 @@ export const bookingApi = {
   },
   updateBookingToYes(email: string) {
     return http.put(
-      `http://localhost:5000/auth/update`,
+      `${process.env.NEXT_PUBLIC_API_BACKEND}/auth/update`,
       {
         email,
       },
@@ -36,7 +39,7 @@ export const bookingApi = {
   },
   deleteListBookingOfUser(email: string) {
     return http.delete(
-      `http://localhost:5000/auth/delete`,
+      `${process.env.NEXT_PUBLIC_API_BACKEND}/auth/delete`,
       {
         email,
       },
@@ -47,7 +50,7 @@ export const bookingApi = {
   },
   deleteOneDateBookingOfAdmin(date: string) {
     return http.delete(
-      `http://localhost:5000/auth/unlock`,
+      `${process.env.NEXT_PUBLIC_API_BACKEND}/auth/unlock`,
       {
         date,
       },
