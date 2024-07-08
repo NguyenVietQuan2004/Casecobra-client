@@ -48,7 +48,6 @@ const DashBoard = () => {
     setPageNum(data.totalPages);
     setListUserNotConfirm(data.users);
   };
-  console.log(pageNum);
   useEffect(() => {
     if (typeof window !== "undefined") {
       const fetchAPI = async () => {

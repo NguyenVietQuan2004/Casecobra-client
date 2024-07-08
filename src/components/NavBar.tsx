@@ -19,6 +19,8 @@ import {
   DrawerTrigger,
 } from "~/components/ui/drawer";
 import { Spinner } from "./ui/spinner";
+import ChinhSach from "./ChinhSachModel";
+import Baomat from "./baomat";
 
 export interface User {
   accessToken: string;
@@ -54,13 +56,27 @@ function Navbar() {
       setIsLoggingOut(false);
     }
   };
+  const handleSignOutLocal = async () => {
+    try {
+      setIsLoggingOut(true);
+      await AuthApi.logoutNextServer();
+      localStorage.clear();
+      setUser(null);
+      setIsAdmin(false);
+      setIsLoggingOut(false);
+      router.refresh();
+    } catch (error) {
+      console.log(error);
+      setIsLoggingOut(false);
+    }
+  };
   useEffect(() => {
     if (typeof window !== "undefined") {
       const fetchAPI = async () => {
         const hasToken = await AuthApi.checkExistCookie();
         const data = localStorage.getItem("user");
         if (!hasToken.hasAccessToken || !data) {
-          handleSignOut();
+          handleSignOutLocal();
           return;
         }
         const userFromLocal = JSON.parse(data);
@@ -133,10 +149,18 @@ function Navbar() {
                                 <div className="flex items-center justify-center space-x-2"></div>
                                 <div className="mt-3 h-[120px]">
                                   <div className="flex items-center py-3">
-                                    <ChinhsachIcon /> <span className="ml-2">Chính sách</span>
+                                    <ChinhsachIcon />
+                                    {/* <span className="ml-2">Chính sách</span> */}
+                                    <Link href="/chinhsach" className="ml-2">
+                                      Chính sách
+                                    </Link>
                                   </div>
                                   <div className="flex items-center py-3">
-                                    <HelpIcon /> <span className="ml-2">Chính sách</span>
+                                    <HelpIcon />
+                                    {/* <span className="ml-2">Bảo mật</span> */}
+                                    <Link className="ml-2" href="/chinhsach">
+                                      Bảo mật
+                                    </Link>
                                   </div>
                                 </div>
                               </div>
@@ -151,26 +175,8 @@ function Navbar() {
                         </Drawer>
                       </div>
                       <div className="hidden sm:block">
-                        <Link
-                          className={buttonVariants({
-                            size: "sm",
-                            variant: "ghost",
-                            className: "text-[12px]",
-                          })}
-                          href="/chinhsach"
-                        >
-                          Chính sách
-                        </Link>
-                        <Link
-                          className={buttonVariants({
-                            size: "sm",
-                            variant: "ghost",
-                            className: "text-[12px]",
-                          })}
-                          href="/help"
-                        >
-                          Bảo mật
-                        </Link>
+                        <ChinhSach />
+                        <Baomat />
                       </div>
                     </>
                   )}
@@ -203,7 +209,7 @@ function Navbar() {
                   {/* <Modal /> */}
                   {!isAdmin && (
                     <div className="hidden sm:block">
-                      <Link
+                      {/* <Link
                         className={buttonVariants({
                           size: "sm",
                           variant: "ghost",
@@ -222,19 +228,21 @@ function Navbar() {
                         href="/help"
                       >
                         Bảo mật
-                      </Link>
+                      </Link> */}
+                      <ChinhSach />
+                      <Baomat />
                     </div>
                   )}
                   {/* drawer */}
-                  <div className="sm:hidden">
+                  <div className="sm:hidden ">
                     <Drawer direction="right">
                       <DrawerTrigger asChild>
                         <div>
                           <MenuIcon />
                         </div>
                       </DrawerTrigger>
-                      <DrawerContent>
-                        <div className="mx-auto w-full max-w-sm">
+                      <DrawerContent className="z-[999999]  border-none">
+                        <div className="mx-auto w-full max-w-sm ">
                           <DrawerHeader>
                             <DrawerTitle>Menu</DrawerTitle>
                             <DrawerDescription> Thông tin cửa hàng.</DrawerDescription>
@@ -243,10 +251,18 @@ function Navbar() {
                             <div className="flex items-center justify-center space-x-2"></div>
                             <div className="mt-3 h-[120px]">
                               <div className="flex items-center py-3">
-                                <ChinhsachIcon /> <span className="ml-2">Chính sách</span>
+                                <ChinhsachIcon />
+                                {/* <span className="ml-2">Chính sách</span> */}
+                                <Link href="/chinhsach" className="ml-2">
+                                  Chính sách
+                                </Link>
                               </div>
                               <div className="flex items-center py-3">
-                                <HelpIcon /> <span className="ml-2">Chính sách</span>
+                                <HelpIcon />
+                                {/* <span className="ml-2">Bảo mật</span> */}
+                                <Link className="ml-2" href="/chinhsach">
+                                  Bảo mật
+                                </Link>
                               </div>
                             </div>
                           </div>
